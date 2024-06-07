@@ -109,9 +109,9 @@ class Analysis:
     def category_by_target(self, column_list, dataset):
         #Analysis of Categorical columns by the risk flag
         for column in column_list:
-           sns.countplot(x=column, hue='Risk_Flag', data=dataset)
-           plt.title(f'{column} by Risk_Flag')
-           plt.show()   
+            sns.countplot(x=column, hue='Risk_Flag', data=dataset)
+            plt.title(f'{column} by Risk_Flag')
+            plt.show()   
 
     def correlation_map(self, dataset):
         correlation = dataset.corr()
@@ -122,11 +122,11 @@ class Analysis:
     def numerical_analysis(self, column_list, dataset):
         #Analysis of the numerical columns using boxplots
         for column in column_list:
-           sns.boxplot(x='Risk_Flag', y=column, data=dataset)
-           plt.title(f'{column} by Risk Flag')
-           plt.xlabel('Risk Flag')
-           plt.ylabel(column)
-           plt.show()   
+            sns.boxplot(x='Risk_Flag', y=column, data=dataset)
+            plt.title(f'{column} by Risk Flag')
+            plt.xlabel('Risk Flag')
+            plt.ylabel(column)
+            plt.show()   
 
 
 class Modeling:
@@ -177,12 +177,12 @@ class Evaluation:
         plt.show()
     
         # Create dictionary to store evaluation results
-        evaluation_results = {
+        evaluation_metrics = {
                              'Precision': precision,
                              'Recall': recall,
                              'F1-score': f1,
                              'ROC-AUC': roc_auc
                              }
     
-        return evaluation_results
+        return evaluation_metrics
              

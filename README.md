@@ -8,9 +8,9 @@ The Bank of India provides Loan Services to many customers and are looking for a
 The loan approval project aims to significantly enhance the efficiency and accuracy of the loan approval process through advanced machine learning techniques. Faced with challenges such as data quality, the proposed solution focuses on achieving a balance between performance and interpretability. With an accuracy target of 80%, the model is expected to provide reliable predictions that can streamline bank operations, reduce approval times, and maintain fair lending practices. 
 
 ### Objectives
-* To
-* To
-* To
+* To create a machine learning model that can accurately predict the likelihood of loan approval for applicants
+ * To achieve a target accuracy score of 80% for the predictive model, ensuring reliable predictions that aid in  decision-making.
+ * To use insights from the Model to automate the loan approval system based on the best features
 
 ## Data Understanding
 The Loan Approval Dataset was sourced from Kaggle.The dataset has comprehensive information regarding a loan applicant's financial status, personal attributes such as age and marital status.The dataset has a blend of both numerical and categorical features.
@@ -64,6 +64,11 @@ The fifth model was a Random Forest Classifier which had an accuracy score of 69
 #### f) Gradient Boosting
 The last and best performed model was an XGBoost model that implemented gradient boosting algorithm to learn from weaker learner models and produce a strong model with an accuravcy score of 89.3% and did not show signs to overfit to the training data
 ![alt text](Visualizations/XGBoost.png)
+## Next Steps
+The best model to implement is the XGBoost model as it had the best accuracy score and for all the times it predicted an outcome as Risky it was correct 90% of the time
+* Identify and create new features that could improve the model's predictive power
+* Ensure that the model complies with relevant regulations and ethical guidelines, particularly those related to fair lending practices.
+* Set up monitoring to track the model's performance over time and implement a maintenance schedule for regular updates and retraining.
 ## Recommendation
  * Conduct fairness analysis to prevent discrimination against any group and nsure the model complies with relevant regulations
  * Provide training for stakeholders and implement a feedback mechanism to improve the model continuously
