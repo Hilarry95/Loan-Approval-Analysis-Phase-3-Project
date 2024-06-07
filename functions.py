@@ -5,7 +5,7 @@ from sklearn.model_selection import  GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score, KFold
 
 from xgboost import XGBClassifier
 from sklearn.preprocessing import StandardScaler
@@ -148,6 +148,18 @@ class Modeling:
             print(f"The Model has an accuracy of {train_acc*100:.2f}% on the train test")
             
             return classifier.score(X_test, y_test)
+
+
+    def cross_val(self, classifier, X_train, y_train):
+        # Perform Cross-Validation
+        cv = KFold(n_splits=5, shuffle=True, random_state=42)
+
+        # Evaluate the model using cross-validation
+        cv_results = cross_val_score(classifier, X_train, y_train, cv=cv, scoring='accuracy')
+
+        print(f'Cross-Validation Accuracy Scores: {cv_results}')
+        print(f'Mean Accuracy: {cv_results.mean()}')
+        print(f'Standard Deviation: {cv_results.std()}')       
         
 class Evaluation:
     def __init__(self):
