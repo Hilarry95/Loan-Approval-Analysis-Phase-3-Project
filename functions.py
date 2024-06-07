@@ -23,22 +23,28 @@ class Loading:
     
     def load_data(self,data_path):
         #loading data
-        df = pd.read_json(data_path)
+        dataset = pd.read_json(data_path)
 
         #print data shape
-        data_shape = df.shape
-        print(f"The dataset contains {data_shape[0]} loan applicants with {data_shape[1]} attributes")
+        data_shape = dataset.shape
+        print(f"The dataset contains {data_shape[0]} loan applicants with {data_shape[1]} attributes\n")
     
         #Print Data information
-        print(df.info())
+        print(dataset.info())
 
+        return dataset
+
+    def stats(self, dataset):    
         #Target Column Value Counts
-        target_value_counts = df['Risk_Flag'].value_counts()
+        target_value_counts = dataset['Risk_Flag'].value_counts()
         print("\nRisk_Flag value counts:")
         print("0 (No Risk): ", target_value_counts.get(0, 0))
         print("1 (Risk): ", target_value_counts.get(1, 0))
 
-        return df
+        #Display Dataset Statistics for numeric columns
+        data_statistics = dataset.describe()
+
+        return data_statistics
     
 class Cleaning:
     def __init__(self):
@@ -63,6 +69,13 @@ class Cleaning:
         issues['null_values'] = null_values
         
         return issues
+
+    def outliers(self, dataset, threshold=2):
+        #Function to remove outliers for zscores more than 2
+        numeric_cols = dataset.select_dtypes(include=[np.number]).columns  
+        z_scores = np.abs((dataset[numeric_cols] - dataset[numeric_cols].mean()) / dataset[numeric_cols].std())  
+        clean_dataset = dataset[(z_scores < threshold).all(axis=1)]  
+        return clean_dataset    
         
         
     
@@ -87,18 +100,11 @@ class Analysis:
     def __init__(self):
         pass
 
-    def targer_analysis(self, df):
+    def target_analysis(self, dataset):
         # Distribution of the Target Variable
-        sns.countplot(x='Risk_Flag', data=df)
+        sns.countplot(x='Risk_Flag', data=dataset, palette='pastel')
         plt.title('Distribution of the Risk Flag')
         plt.show()
-
-    def categorical_analysis(self,column_list, dataset):
-        #Analysis for categorical columns
-        for column in column_list:
-            sns.countplot(x=column, data=dataset)
-            plt.title(f'Distribution of {column}')
-            plt.show()
 
     def category_by_target(self, column_list, dataset):
         #Analysis of Categorical columns by the risk flag
@@ -111,7 +117,16 @@ class Analysis:
         correlation = dataset.corr()
         sns.heatmap(correlation, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
         plt.title('Correlation Heatmap ')
-        plt.show()         
+        plt.show()   
+
+    def numerical_analysis(self, column_list, dataset):
+        #Analysis of the numerical columns using boxplots
+        for column in column_list:
+           sns.boxplot(x='Risk_Flag', y=column, data=dataset)
+           plt.title(f'{column} by Risk Flag')
+           plt.xlabel('Risk Flag')
+           plt.ylabel(column)
+           plt.show()   
 
 
 class Modeling:
