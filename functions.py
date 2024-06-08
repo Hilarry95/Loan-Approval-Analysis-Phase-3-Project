@@ -10,7 +10,8 @@ from sklearn.model_selection import train_test_split, cross_val_score, KFold
 from xgboost import XGBClassifier
 from sklearn.preprocessing import StandardScaler
 
-from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, f1_score, roc_auc_score
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score
+from sklearn.metrics import roc_curve, auc, recall_score, f1_score, roc_auc_score
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -153,6 +154,24 @@ class Modeling:
         print(f'Mean Accuracy: {cv_results.mean()}')
         print(f'Standard Deviation: {cv_results.std()}')       
         
+    def plot_curves(self, classifiers, X_train, y_train):
+        plt.figure()
+        for name, classifier in classifiers.items():
+            y_scores = classifier.predict_proba(X_train)[:, 1] 
+            fpr, tpr, _ = roc_curve(y_train, y_scores)
+            plt.plot(fpr, tpr, lw=2, label=f'{name} (AUC = {auc(fpr, tpr):.2f})')
+
+        # Plot random guessing line
+        plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+
+        plt.xlim([0.0, 1.0])
+        plt.ylim([0.0, 1.05])
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.title('ROC Curve - Training Set')
+        plt.legend(loc="lower right")
+        plt.show()
+
 class Evaluation:
     def __init__(self):
         pass
