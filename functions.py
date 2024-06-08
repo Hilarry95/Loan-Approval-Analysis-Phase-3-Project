@@ -69,15 +69,7 @@ class Cleaning:
         issues['null_values'] = null_values
         
         return issues
-
-    def outliers(self, dataset, threshold=2):
-        #Function to remove outliers for zscores more than 2
-        numeric_cols = dataset.select_dtypes(include=[np.number]).columns  
-        z_scores = np.abs((dataset[numeric_cols] - dataset[numeric_cols].mean()) / dataset[numeric_cols].std())  
-        clean_dataset = dataset[(z_scores < threshold).all(axis=1)]  
-        return clean_dataset    
-        
-        
+      
     
 class Preprocessing: 
     def __init__(self) :
